@@ -1,26 +1,613 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: 30 40% 98%;
+  --foreground: 25 20% 20%;
+  --card: 30 50% 96%;
+  --card-foreground: 25 20% 20%;
+  --popover: 30 50% 96%;
+  --popover-foreground: 25 20% 20%;
+  --primary: 25 50% 65%;
+  --primary-foreground: 30 40% 98%;
+  --secondary: 180 25% 90%;
+  --secondary-foreground: 25 20% 20%;
+  --muted: 200 25% 92%;
+  --muted-foreground: 25 15% 45%;
+  --accent: 200 40% 88%;
+  --accent-foreground: 25 20% 20%;
+  --destructive: 0 70% 75%;
+  --destructive-foreground: 30 40% 98%;
+  --border: 220 20% 88%;
+  --input: 220 20% 88%;
+  --ring: 25 50% 65%;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: 240 15% 8%;
+  --foreground: 30 25% 92%;
+  --card: 240 15% 12%;
+  --card-foreground: 30 25% 92%;
+  --popover: 240 15% 12%;
+  --popover-foreground: 30 25% 92%;
+  --primary: 25 40% 70%;
+  --primary-foreground: 240 15% 8%;
+  --secondary: 200 15% 18%;
+  --secondary-foreground: 30 25% 92%;
+  --muted: 220 15% 16%;
+  --muted-foreground: 30 15% 65%;
+  --accent: 200 25% 22%;
+  --accent-foreground: 30 25% 92%;
+  --destructive: 0 60% 65%;
+  --destructive-foreground: 30 25% 92%;
+  --border: 220 15% 20%;
+  --input: 220 15% 20%;
+  --ring: 25 40% 70%;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: hsl(var(--border));
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(30 35% 96%) 100%);
+  color: hsl(var(--foreground));
+  min-height: 100vh;
+}
+
+.dark body {
+  background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(240 12% 10%) 100%);
+}
+
+#n8n-chat {
+  width: 100%;
+	height: 100%;
+}
+
+/* n8n Chat Custom Styling to match Pastel Theme */
+.chat {
+  background: transparent !important;
+}
+
+.chat-container {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* More specific selectors for chat container */
+#n8n-chat,
+#n8n-chat > div,
+#n8n-chat [class*="chat"],
+#n8n-chat [class*="container"],
+#n8n-chat [class*="wrapper"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Chat body/main area */
+#n8n-chat [class*="body"],
+#n8n-chat [class*="main"],
+#n8n-chat [class*="content"] {
+  background: transparent !important;
+}
+
+/* Chat messages container - ensure vertical flow */
+#n8n-chat [class*="messages"],
+#n8n-chat [class*="conversation"],
+#n8n-chat [class*="chat-history"],
+#n8n-chat [class*="message-list"] {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.75rem !important;
+  padding: 1rem !important;
+}
+
+/* Chat messages */
+.chat-message {
+  margin: 0.75rem 0 !important;
+}
+
+.chat-message.user {
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.chat-message.user .chat-message-body {
+  background: hsl(var(--primary) / 0.9) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 1px solid hsl(var(--border) / 0.3) !important;
+  border-radius: 1rem 1rem 0.25rem 1rem !important;
+  padding: 0.75rem 1rem !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1) !important;
+  max-width: 70% !important;
+}
+
+.chat-message.assistant .chat-message-body,
+.chat-message.bot .chat-message-body {
+  background: hsl(var(--card) / 0.7) !important;
+  color: hsl(var(--card-foreground)) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 1px solid hsl(var(--border) / 0.3) !important;
+  border-radius: 1rem 1rem 1rem 0.25rem !important;
+  padding: 0.75rem 1rem !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1) !important;
+  max-width: 70% !important;
+}
+
+/* More specific message selectors */
+#n8n-chat [class*="message"] {
+  margin: 0.75rem 0 !important;
+  animation: fadeInUp 0.3s ease-out !important;
+}
+
+/* User messages - more specific */
+#n8n-chat [class*="message"][class*="user"],
+#n8n-chat [class*="user-message"],
+#n8n-chat .message.user,
+#n8n-chat [data-role="user"],
+#n8n-chat [data-sender="user"],
+#n8n-chat .user,
+#n8n-chat [class*="from-user"],
+#n8n-chat [class*="sent"],
+#n8n-chat [class*="outgoing"] {
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  text-align: left !important;
+  width: fit-content !important;
+  max-width: 70% !important;
+}
+
+#n8n-chat [class*="message"][class*="user"] > div,
+#n8n-chat [class*="user-message"] > div,
+#n8n-chat .message.user > div,
+#n8n-chat [class*="message"][class*="user"] [class*="content"],
+#n8n-chat [class*="message"][class*="user"] [class*="bubble"],
+#n8n-chat [class*="message"][class*="user"] [class*="body"] {
+  background: hsl(var(--primary) / 0.9) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 1px solid hsl(var(--border) / 0.3) !important;
+  border-radius: 1rem 1rem 0.25rem 1rem !important;
+  padding: 0.75rem 1rem !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1) !important;
+  /* max-width: 70% !important; */
+}
+
+/* Assistant/Bot messages - more specific */
+#n8n-chat [class*="message"][class*="assistant"],
+#n8n-chat [class*="message"][class*="bot"],
+#n8n-chat [class*="assistant-message"],
+#n8n-chat [class*="bot-message"],
+#n8n-chat .message.assistant,
+#n8n-chat .message.bot,
+#n8n-chat [data-role="assistant"],
+#n8n-chat [data-role="bot"],
+#n8n-chat [data-sender="assistant"],
+#n8n-chat [data-sender="bot"],
+#n8n-chat .assistant,
+#n8n-chat .bot,
+#n8n-chat [class*="from-bot"],
+#n8n-chat [class*="from-assistant"],
+#n8n-chat [class*="received"],
+#n8n-chat [class*="incoming"] {
+  /* display: block !important; */
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  text-align: left !important;
+  width: fit-content !important;
+  max-width: 70% !important;
+}
+
+#n8n-chat [class*="message"][class*="assistant"] > div,
+#n8n-chat [class*="message"][class*="bot"] > div,
+#n8n-chat [class*="assistant-message"] > div,
+#n8n-chat [class*="bot-message"] > div,
+#n8n-chat .message.assistant > div,
+#n8n-chat .message.bot > div,
+#n8n-chat [class*="message"][class*="assistant"] [class*="content"],
+#n8n-chat [class*="message"][class*="assistant"] [class*="bubble"],
+#n8n-chat [class*="message"][class*="assistant"] [class*="body"],
+#n8n-chat [class*="message"][class*="bot"] [class*="content"],
+#n8n-chat [class*="message"][class*="bot"] [class*="bubble"],
+#n8n-chat [class*="message"][class*="bot"] [class*="body"] {
+  background: hsl(var(--card) / 0.7) !important;
+  color: hsl(var(--card-foreground)) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 1px solid hsl(var(--border) / 0.3) !important;
+  border-radius: 1rem 1rem 1rem 0.25rem !important;
+  padding: 0.75rem 1rem !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1) !important;
+  /* max-width: 70% !important; */
+}
+
+/* Input area */
+.chat-input-container {
+  background: hsl(var(--background) / 0.8) !important;
+  backdrop-filter: blur(8px) !important;
+  border-top: 1px solid hsl(var(--border) / 0.5) !important;
+  padding: 1rem !important;
+}
+
+.chat-inputs-controls {
+  padding: 0px !important;
+}
+
+.chat-input {
+  background: hsl(var(--background)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 0.75rem !important;
+  color: hsl(var(--foreground)) !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.875rem !important;
+}
+
+.chat-input:focus {
+  outline: none !important;
+  border-color: hsl(var(--ring)) !important;
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2) !important;
+}
+
+.chat-input::placeholder {
+  color: hsl(var(--muted-foreground)) !important;
+}
+
+/* Send button */
+.chat-send-button {
+  background: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  border: 2px solid hsl(var(--primary)) !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem !important;
+  margin-left: 0.5rem !important;
+  transition: all 0.2s ease-in-out !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+}
+
+.chat-send-button:hover {
+  background: hsl(var(--primary) / 0.8) !important;
+  border-color: hsl(var(--primary) / 0.8) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 8px 0 rgb(0 0 0 / 0.2) !important;
+}
+
+/* More specific send button selectors */
+#n8n-chat button,
+#n8n-chat [class*="send"],
+#n8n-chat [class*="submit"],
+#n8n-chat button[type="submit"],
+#n8n-chat input[type="submit"] {
+  background: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  border: 2px solid hsl(var(--primary)) !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 0.75rem !important;
+  margin-left: 0.5rem !important;
+  transition: all 0.2s ease-in-out !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+}
+
+#n8n-chat button:hover,
+#n8n-chat [class*="send"]:hover,
+#n8n-chat [class*="submit"]:hover,
+#n8n-chat button[type="submit"]:hover,
+#n8n-chat input[type="submit"]:hover {
+  background: hsl(var(--primary) / 0.9) !important;
+  border-color: hsl(var(--primary) / 0.9) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 8px 0 rgb(0 0 0 / 0.2) !important;
+}
+
+#n8n-chat button:active,
+#n8n-chat [class*="send"]:active,
+#n8n-chat [class*="submit"]:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1) !important;
+}
+
+/* Chat header */
+.chat-header {
+  background: hsl(var(--background) / 0.8) !important;
+  backdrop-filter: blur(8px) !important;
+  border-bottom: 1px solid hsl(var(--border) / 0.5) !important;
+  padding: 1rem !important;
+}
+
+.chat-title {
+  color: hsl(var(--foreground)) !important;
+  font-weight: 600 !important;
+}
+
+/* More specific selectors for chat heading */
+#n8n-chat .chat-header,
+#n8n-chat [class*="header"] {
+  background: hsl(var(--background) / 0.8) !important;
+  backdrop-filter: blur(8px) !important;
+  border-bottom: 1px solid hsl(var(--border) / 0.5) !important;
+  padding: 1rem !important;
+}
+
+#n8n-chat .chat-title,
+#n8n-chat [class*="title"],
+#n8n-chat [class*="header"] h1,
+#n8n-chat [class*="header"] h2,
+#n8n-chat [class*="header"] h3,
+#n8n-chat [class*="header"] span,
+#n8n-chat [class*="header"] p {
+  color: hsl(var(--foreground)) !important;
+  font-weight: 600 !important;
+}
+
+/* Scrollbar styling */
+.chat-messages::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: hsl(var(--muted) / 0.3) !important;
+  border-radius: 3px !important;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3) !important;
+  border-radius: 3px !important;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5) !important;
+}
+
+/* Loading indicator */
+.chat-loading {
+  color: hsl(var(--muted-foreground)) !important;
+}
+
+/* Timestamp styling */
+.chat-timestamp {
+  color: hsl(var(--muted-foreground) / 0.7) !important;
+  font-size: 0.75rem !important;
+}
+
+/* Avatar styling */
+.chat-avatar {
+  border-radius: 0.5rem !important;
+  border: 2px solid hsl(var(--border) / 0.3) !important;
+}
+
+/* Animation for new messages */
+.chat-message {
+  animation: fadeInUp 0.3s ease-out !important;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Additional n8n chat styling - targeting different possible class names */
+[class*="chat"] {
+  font-family: var(--font-geist-sans), system-ui, sans-serif !important;
+}
+
+/* Universal user message alignment - catch-all selectors */
+#n8n-chat div[class*="user"]:not([class*="avatar"]):not([class*="name"]),
+#n8n-chat li[class*="user"],
+#n8n-chat .chat-message.user,
+#n8n-chat div:has(> [class*="user"]),
+#n8n-chat *[data-from="user"],
+#n8n-chat *[data-type="user"],
+#n8n-chat *[data-message-type="user"] {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: flex-end !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  width: 100% !important;
+}
+
+/* Universal bot/assistant message alignment */
+#n8n-chat div[class*="bot"]:not([class*="avatar"]):not([class*="name"]),
+#n8n-chat div[class*="assistant"]:not([class*="avatar"]):not([class*="name"]),
+#n8n-chat li[class*="bot"],
+#n8n-chat li[class*="assistant"],
+#n8n-chat .chat-message.bot,
+#n8n-chat .chat-message.assistant,
+#n8n-chat div:has(> [class*="bot"]),
+#n8n-chat div:has(> [class*="assistant"]),
+#n8n-chat *[data-from="bot"],
+#n8n-chat *[data-from="assistant"],
+#n8n-chat *[data-type="bot"],
+#n8n-chat *[data-type="assistant"],
+#n8n-chat *[data-message-type="bot"],
+#n8n-chat *[data-message-type="assistant"] {
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  width: 100% !important;
+}
+
+/* Super specific user message right alignment - highest priority */
+#n8n-chat * {
+  /* Reset any conflicting flex properties on all elements first */
+}
+
+#n8n-chat *[class*="user"]:not([class*="avatar"]):not([class*="name"]):not([class*="label"]) {
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  text-align: left !important;
+  width: fit-content !important;
+  max-width: 70% !important;
+}
+
+/* Force all user message containers to the right */
+#n8n-chat > div > div[class*="user"],
+#n8n-chat > * > *[class*="user"]:not([class*="avatar"]):not([class*="name"]) {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  display: block !important;
+  text-align: left !important;
+}
+
+/* Force bot/assistant messages to the left */
+#n8n-chat *[class*="bot"]:not([class*="avatar"]):not([class*="name"]):not([class*="label"]),
+#n8n-chat *[class*="assistant"]:not([class*="avatar"]):not([class*="name"]):not([class*="label"]) {
+  display: block !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  text-align: left !important;
+  width: fit-content !important;
+  max-width: 70% !important;
+}
+
+/* Message bubbles - alternative selectors */
+[class*="message"][class*="user"],
+[class*="user-message"] {
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+[class*="message"][class*="user"] [class*="bubble"],
+[class*="message"][class*="user"] [class*="content"],
+[class*="user-message"] [class*="bubble"],
+[class*="user-message"] [class*="content"] {
+  background: hsl(var(--primary) / 0.9) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  backdrop-filter: blur(4px) !important;
+  border-radius: 1rem 1rem 0.25rem 1rem !important;
+  padding: 0.75rem 1rem !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1) !important;
+}
+
+[class*="message"][class*="bot"],
+[class*="message"][class*="assistant"],
+[class*="bot-message"],
+[class*="assistant-message"] {
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+
+[class*="message"][class*="bot"] [class*="bubble"],
+[class*="message"][class*="bot"] [class*="content"],
+[class*="message"][class*="assistant"] [class*="bubble"],
+[class*="message"][class*="assistant"] [class*="content"],
+[class*="bot-message"] [class*="bubble"],
+[class*="bot-message"] [class*="content"],
+[class*="assistant-message"] [class*="bubble"],
+[class*="assistant-message"] [class*="content"] {
+  background: hsl(var(--card) / 0.7) !important;
+  color: hsl(var(--card-foreground)) !important;
+  backdrop-filter: blur(4px) !important;
+  border-radius: 1rem 1rem 1rem 0.25rem !important;
+  padding: 0.75rem 1rem !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1) !important;
+}
+
+/* Input field - alternative selectors */
+[class*="input"][class*="chat"],
+[class*="chat"][class*="input"],
+textarea[class*="chat"],
+input[class*="message"] {
+  background: hsl(var(--background)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 0.75rem !important;
+  color: hsl(var(--foreground)) !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.875rem !important;
+}
+
+[class*="input"][class*="chat"]:focus,
+[class*="chat"][class*="input"]:focus,
+textarea[class*="chat"]:focus,
+input[class*="message"]:focus {
+  outline: none !important;
+  border-color: hsl(var(--ring)) !important;
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2) !important;
+}
+
+/* Send button - alternative selectors */
+[class*="send"][class*="button"],
+[class*="submit"][class*="button"],
+button[class*="send"],
+button[class*="submit"] {
+  background: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  border: 2px solid hsl(var(--primary)) !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 0.75rem !important;
+  transition: all 0.2s ease-in-out !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+}
+
+[class*="send"][class*="button"]:hover,
+[class*="submit"][class*="button"]:hover,
+button[class*="send"]:hover,
+button[class*="submit"]:hover {
+  background: hsl(var(--primary) / 0.9) !important;
+  border-color: hsl(var(--primary) / 0.9) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 8px 0 rgb(0 0 0 / 0.2) !important;
+}
+
+/* Container overrides */
+[class*="chat"][class*="widget"],
+[class*="chat"][class*="container"],
+[class*="chat"][class*="wrapper"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Typography improvements */
+[class*="chat"] p,
+[class*="chat"] span,
+[class*="chat"] div {
+  line-height: 1.5 !important;
+}
+
+/* Improved focus states */
+[class*="chat"] *:focus-visible {
+  outline: 2px solid hsl(var(--ring)) !important;
+  outline-offset: 2px !important;
 }
