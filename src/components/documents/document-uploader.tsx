@@ -13,34 +13,44 @@ import { Input } from "@/components/ui/input"
 import { Plus, Upload, X } from "lucide-react"
 
 interface DocumentUploaderProps {
-  onUpload: (file: File, name: string) => void
+  onUpload: (file: File) => void
 }
 
 export default function DocumentUploader({ onUpload }: DocumentUploaderProps) {
   const [open, setOpen] = useState(false)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [fileName, setFileName] = useState("")
+  const [uploading, setUploading] = useState(false)
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
+      const fileExtension = file.name.split('.').pop()?.toLowerCase()
+      if (!fileExtension || !['pdf', 'xlsx'].includes(fileExtension)) {
+        alert('Only PDF and XLSX files are allowed')
+        return
+      }
+
+      if (file.size > 10 * 1024 * 1024) {
+        alert('File size must be less than 10MB')
+        return
+      }
+
       setSelectedFile(file)
-      setFileName(file.name.split('.')[0])
     }
   }
 
-  const handleUpload = () => {
-    if (selectedFile && fileName.trim()) {
-      onUpload(selectedFile, fileName)
+  const handleUpload = async () => {
+    if (selectedFile) {
+      setUploading(true)
+      await onUpload(selectedFile)
       setSelectedFile(null)
-      setFileName("")
+      setUploading(false)
       setOpen(false)
     }
   }
 
   const handleCancel = () => {
     setSelectedFile(null)
-    setFileName("")
     setOpen(false)
   }
 
@@ -63,8 +73,9 @@ export default function DocumentUploader({ onUpload }: DocumentUploaderProps) {
               <Input
                 type="file"
                 onChange={handleFileSelect}
-                accept=".pdf,.doc,.docx,.txt,.md"
+                accept=".pdf,.xlsx"
                 className="flex-1"
+                disabled={uploading}
               />
               {selectedFile && (
                 <Button
@@ -78,32 +89,26 @@ export default function DocumentUploader({ onUpload }: DocumentUploaderProps) {
             </div>
             {selectedFile && (
               <p className="text-xs text-muted-foreground mt-1">
-                Selected: {selectedFile.name} ({Math.round(selectedFile.size / 1024)}KB)
+                Selected: {selectedFile.name} ({(selectedFile.size / 1024 / 1024).toFixed(2)}MB)
               </p>
             )}
+            <p className="text-xs text-muted-foreground mt-1">
+              Only PDF and XLSX files up to 10MB are allowed
+            </p>
           </div>
           
-          <div>
-            <label className="text-sm font-medium">Document Name</label>
-            <Input
-              value={fileName}
-              onChange={(e) => setFileName(e.target.value)}
-              placeholder="Enter document name"
-              className="mt-2"
-            />
-          </div>
           
           <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={handleCancel}>
+            <Button variant="outline" onClick={handleCancel} disabled={uploading}>
               Cancel
             </Button>
             <Button 
               onClick={handleUpload}
-              disabled={!selectedFile || !fileName.trim()}
+              disabled={!selectedFile || uploading}
               className="flex items-center gap-2"
             >
               <Upload className="h-4 w-4" />
-              Upload
+              {uploading ? 'Uploading...' : 'Upload'}
             </Button>
           </div>
         </div>
