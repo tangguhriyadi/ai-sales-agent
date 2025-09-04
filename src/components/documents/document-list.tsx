@@ -181,6 +181,7 @@ export default function DocumentList() {
                       <Button 
                         variant="ghost" 
                         size="icon"
+                        className="cursor-pointer hover:cursor-pointer"
                         onClick={() => handleDownload(document.file_url, document.file_name)}
                       >
                         <Download className="h-4 w-4" />
@@ -188,6 +189,7 @@ export default function DocumentList() {
                       <Button 
                         variant="ghost" 
                         size="icon"
+                        className="cursor-pointer hover:cursor-pointer"
                         onClick={() => handleDeleteClick(document)}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -220,10 +222,10 @@ export default function DocumentList() {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={handleDeleteCancel}>
+            <Button variant="outline" className="cursor-pointer hover:cursor-pointer" onClick={handleDeleteCancel}>
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleDeleteConfirm}>
+            <Button variant="destructive" className="cursor-pointer hover:cursor-pointer" onClick={handleDeleteConfirm}>
               Delete
             </Button>
           </DialogFooter>

@@ -57,7 +57,7 @@ export default function DocumentUploader({ onUpload }: DocumentUploaderProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="flex items-center gap-2">
+        <Button className="flex items-center gap-2 cursor-pointer hover:cursor-pointer">
           <Plus className="h-4 w-4" />
           Upload Document
         </Button>
@@ -81,6 +81,7 @@ export default function DocumentUploader({ onUpload }: DocumentUploaderProps) {
                 <Button
                   variant="ghost"
                   size="icon"
+                  className="cursor-pointer hover:cursor-pointer"
                   onClick={() => setSelectedFile(null)}
                 >
                   <X className="h-4 w-4" />
@@ -99,13 +100,13 @@ export default function DocumentUploader({ onUpload }: DocumentUploaderProps) {
           
           
           <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={handleCancel} disabled={uploading}>
+            <Button variant="outline" className="cursor-pointer hover:cursor-pointer" onClick={handleCancel} disabled={uploading}>
               Cancel
             </Button>
             <Button 
               onClick={handleUpload}
               disabled={!selectedFile || uploading}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 cursor-pointer hover:cursor-pointer"
             >
               <Upload className="h-4 w-4" />
               {uploading ? 'Uploading...' : 'Upload'}

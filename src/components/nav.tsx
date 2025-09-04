@@ -65,7 +65,7 @@ export default function Sidebar() {
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
-          className="shrink-0"
+          className="shrink-0 cursor-pointer hover:cursor-pointer"
           title={collapsed ? "Expand sidebar (Ctrl+B)" : "Collapse sidebar (Ctrl+B)"}
         >
           {collapsed ? <Menu className="h-5 w-5" /> : <X className="h-5 w-5" />}
@@ -84,7 +84,7 @@ export default function Sidebar() {
               key={item.name}
               variant={isActive ? "secondary" : "ghost"}
               className={cn(
-                "w-full transition-all duration-200",
+                "w-full transition-all duration-200 cursor-pointer hover:cursor-pointer",
                 collapsed ? "justify-center px-0" : "justify-start gap-3",
                 isActive && "bg-secondary"
               )}
