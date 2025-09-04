@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CLAUDE.md
 
-## Getting Started
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-First, run the development server:
+## Project Overview
+
+This is a **Sales Agent Chat Dashboard** built with Next.js 15, featuring a collapsible sidebar navigation and integrated n8n chat widget. The application uses a custom pastel theme and consists of two main sections: Chat and Documents management.
+
+## Development Commands
 
 ```bash
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
+
+# Run linter
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The development server runs on http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Architecture
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript with strict mode enabled
+- **Styling**: TailwindCSS v4 with custom pastel theme using CSS variables
+- **UI Components**: shadcn/ui components with Radix UI primitives
+- **Chat Integration**: n8n chat widget (@n8n/chat)
+- **Icons**: Lucide React
+- **Fonts**: Geist Sans and Geist Mono via `next/font/google`
+- **Import Paths**: Uses `@/*` alias for `./src/*`
 
-## Learn More
+### Application Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── layout.tsx          # Root layout with sidebar integration
+│   ├── page.tsx            # Home page (Chat interface)
+│   ├── documents/page.tsx  # Documents management page
+│   └── globals.css         # Global styles, theme, and n8n chat overrides
+├── components/
+│   ├── nav.tsx             # Collapsible sidebar navigation
+│   ├── chat/
+│   │   ├── chat-interface.tsx  # Original chat interface (unused)
+│   │   └── chat-n8n.tsx       # n8n chat widget integration
+│   ├── documents/
+│   │   ├── document-list.tsx     # Document table with CRUD operations
+│   │   └── document-uploader.tsx # File upload dialog
+│   └── ui/                 # shadcn/ui components
+└── lib/
+    └── utils.ts            # Utility functions (cn, clsx, twMerge)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Key Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 1. Collapsible Sidebar Navigation
+- Located in `src/components/nav.tsx`
+- Toggles between expanded (256px) and collapsed (64px) states
+- Keyboard shortcut: `Ctrl+B`
+- Responsive: auto-collapses on mobile devices
+- Menu items: Chat and Documents with Lucide icons
 
-## Deploy on Vercel
+### 2. n8n Chat Integration
+- Uses `@n8n/chat` widget in fullscreen mode
+- Configured in `src/components/chat/chat-n8n.tsx`
+- Webhook URL: `https://n8n.inventrackbetest.site/webhook/91833f24-c0b7-4ebc-813d-46e90ea4fdfc/chat`
+- Indonesian language support with custom i18n configuration
+- Initial greeting from "Farah" (Sales Agent from Tangguh Pharmacy)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 3. Custom Pastel Theme
+- Claude-inspired soft color palette
+- Comprehensive CSS overrides in `globals.css` for n8n chat styling
+- HSL color values with transparency and backdrop blur effects
+- Both light and dark mode support
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. Document Management
+- File upload functionality with drag-and-drop support
+- Document table with view, download, and delete actions
+- File type badges and size display
+- Mock data implementation ready for backend integration
+
+## Theme System
+
+The application uses a sophisticated pastel color system:
+
+**Light Mode Colors:**
+- Background: Warm cream (hsl(30, 40%, 98%))
+- Primary: Coral-orange (hsl(25, 50%, 65%))
+- Secondary: Soft sage green (hsl(180, 25%, 90%))
+- Muted: Pale blue-gray (hsl(200, 25%, 92%))
+
+**Dark Mode Colors:**
+- Background: Deep navy-purple (hsl(240, 15%, 8%))
+- Maintains warm cream text with reduced contrast
+- Complementary muted tones throughout
+
+## n8n Chat Styling
+
+Extensive CSS overrides ensure the n8n chat matches the pastel theme:
+- Message bubbles with rounded corners and soft shadows
+- User messages: Right-aligned with primary color styling
+- Bot messages: Left-aligned with card background
+- Custom input styling and send button with hover effects
+- Proper scrollbar styling and animations
+
+## Development Notes
+
+- The sidebar uses localStorage to persist collapse state (if implemented)
+- All components follow the established naming conventions
+- Message alignment uses CSS Grid/Flexbox for proper positioning
+- File uploads are currently mock implementations
+- The original chat interface component exists but is replaced by n8n integration
+- CSS uses high specificity selectors to override n8n default styles
+
+## External Dependencies
+
+Key third-party packages:
+- `@n8n/chat`: Chat widget integration
+- `@radix-ui/*`: Accessible component primitives  
+- `lucide-react`: Icon library
+- `class-variance-authority`: Component variant management
+- `tailwind-merge`: Tailwind class merging utility
