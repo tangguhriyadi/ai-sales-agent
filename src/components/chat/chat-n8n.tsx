@@ -9,7 +9,7 @@ export const Chatn8n = () => {
             webhookUrl:
                 "https://n8n.inventrackbetest.site/webhook/91833f24-c0b7-4ebc-813d-46e90ea4fdfc/chat",
             initialMessages: [
-                "Hai ! Saya Farah 👋, Ada yang bisa saya bantu hari ini di Tangguh Pharmacy? Apakah Anda sedang mencari produk kesehatan atau obat tertentu? 😊",
+                "Hai ! Saya Farah 👋, Ada yang bisa saya bantu hari ini di Cepat Sehat Pharmacy? Apakah Anda sedang mencari produk kesehatan atau obat tertentu? 😊",
             ],
             mode: "fullscreen",
             chatInputKey: "chatInput",
@@ -22,16 +22,16 @@ export const Chatn8n = () => {
             },
             i18n: {
                 en: {
-                    title: "Sales Agent Chat",
+                    title: "Pharmacy Sales Agent Chat - Cepat Sehat",
                     placeholder: "Type your message here...",
                     sendButton: "Send",
                     closeButton: "Close",
                     welcomeMessage:
-                        "Hai ! Saya Farah, Sales Agent dari Tangguh Pharmacy",
+                        "Hai ! Saya Farah, Sales Agent dari Cepat Sehat Pharmacy",
                     footer: "",
                     closeButtonTooltip: "",
                     getStarted: "",
-                    inputPlaceholder: "Ketik pesan Anda di sini...",
+                    inputPlaceholder: "type here...",
                     subtitle: "",
                 },
             },
